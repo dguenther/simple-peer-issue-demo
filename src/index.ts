@@ -1,8 +1,8 @@
 require('segfault-handler').registerHandler('segfault.log')
-const SimplePeer = require('simple-peer')
+const { Peer } = require('./peer')
 const wrtc = require('wrtc')
 
-const LOOP_TIME_MS = 70
+const LOOP_TIME_MS = 50
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -29,8 +29,8 @@ async function eventLoop() {
   }
   
   for (let i = 0; i < 4; i++) {
-    const recip = new SimplePeer({ initiator: false, wrtc })
-    const init = new SimplePeer({ initiator: true, wrtc })
+    const recip = new Peer(false)
+    const init = new Peer(true)
 
     recip.on('signal', (signal) => {
       if (!init.destroyed) init.signal(signal)
